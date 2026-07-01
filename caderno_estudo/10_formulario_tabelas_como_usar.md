@@ -1,6 +1,6 @@
 # 10 — Formulário e Tabelas: para que serve cada coisa
 
-> Este ficheiro **decifra o formulário oficial** ([content/consulta/formulario_teste.pdf](../consulta/formulario_teste.pdf)) e ensina a **ler as tabelas** ([content/consulta/tabelas_estatisticas.pdf](../consulta/tabelas_estatisticas.pdf)). No teste tens estas folhas — o que conta é saber **quando** usar cada fórmula.
+> Este ficheiro **decifra o formulário oficial** ([content/consulta/formulario_teste.pdf](../content/consulta/formulario_teste.pdf)) e ensina a **ler as tabelas** ([content/consulta/tabelas_estatisticas.pdf](../content/consulta/tabelas_estatisticas.pdf)). No teste tens estas folhas — o que conta é saber **quando** usar cada fórmula.
 
 ---
 

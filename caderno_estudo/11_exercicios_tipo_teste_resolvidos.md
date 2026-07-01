@@ -1,7 +1,7 @@
 # 11 — Exercícios Tipo-Teste Resolvidos Passo a Passo
 
 > Reúne as **4 perguntas do teste de exemplo** totalmente resolvidas + **exercícios representativos** de cada tipo prioritário, resolvidos à mão. Os valores finais estão **verificados** contra as soluções oficiais.
-> Fontes: [teste_exemplo](../teste_exemplo/enunciado/6_teste_exemplo.pdf) · [soluções](../teste_exemplo/solucoes/6_teste_exemplo_solucoes.pdf).
+> Fontes: [teste_exemplo](../content/teste_exemplo/enunciado/6_teste_exemplo.pdf) · [soluções](../content/teste_exemplo/solucoes/6_teste_exemplo_solucoes.pdf).
 
 ---
 
