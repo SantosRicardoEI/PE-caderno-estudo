@@ -1,0 +1,84 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { conceitos } from '../data/conceitos.mjs';
+import { renderDefinicao } from '../lib/render-conceitos.mjs';
+
+const categorias = [...new Set(conceitos.map((c) => c.cat))];
+const porCat = categorias.map((cat) => ({
+  cat,
+  itens: conceitos
+    .filter((c) => c.cat === cat)
+    .sort((a, b) => a.termo.localeCompare(b.termo, 'pt')),
+}));
+const total = conceitos.length;
+---
+<BaseLayout title="Glossário" description={`Glossário com ${total} conceitos de Probabilidade e Estatística.`} current="/glossario" wide>
+  <main class="prose wide" id="conteudo">
+    <h1>📔 Glossário</h1>
+    <p class="resumo" style="color:var(--text-soft)">
+      {total} conceitos definidos. Os mesmos aparecem como <span class="conceito" data-conceito="valor-esperado">tooltips</span> ao longo do caderno — passa o rato por cima de qualquer termo sublinhado.
+    </p>
+
+    <div class="gloss-controls">
+      <input id="gloss-search" type="search" placeholder="Pesquisar conceito…" aria-label="Pesquisar conceito" autocomplete="off" />
+      <div class="gloss-chips" role="tablist" aria-label="Filtrar por categoria">
+        <button class="chip active" data-cat="__all">Todos</button>
+        {categorias.map((cat) => <button class="chip" data-cat={cat}>{cat}</button>)}
+      </div>
+    </div>
+
+    <p id="gloss-empty" class="gloss-empty" hidden>Sem resultados.</p>
+
+    {porCat.map(({ cat, itens }) => (
+      <section class="gloss-sec" data-cat={cat}>
+        <h2>{cat}</h2>
+        <div class="gloss-grid">
+          {itens.map((c) => (
+            <article class="gloss-card" id={`c-${c.id}`} data-termo={(c.termo + ' ' + (c.aliases || []).join(' ')).toLowerCase()}>
+              <h3 class="gloss-card__t" set:html={renderDefinicao(c.termo)} />
+              <p class="gloss-card__d" set:html={renderDefinicao(c.def)} />
+              {c.href && <a class="gloss-card__l" href={c.href}>ver no tema →</a>}
+            </article>
+          ))}
+        </div>
+      </section>
+    ))}
+  </main>
+
+  <script is:inline>
+    (function () {
+      const search = document.getElementById('gloss-search');
+      const chips = Array.from(document.querySelectorAll('.gloss-chips .chip'));
+      const secs = Array.from(document.querySelectorAll('.gloss-sec'));
+      const cards = Array.from(document.querySelectorAll('.gloss-card'));
+      const empty = document.getElementById('gloss-empty');
+      let cat = '__all';
+      const norm = (s) => s.normalize('NFD').replace(/[̀-ͯ]/g, '').toLowerCase();
+
+      function aplicar() {
+        const q = norm(search.value.trim());
+        let visiveis = 0;
+        secs.forEach((sec) => {
+          const secCat = sec.getAttribute('data-cat');
+          let secVis = 0;
+          sec.querySelectorAll('.gloss-card').forEach((card) => {
+            const okCat = cat === '__all' || secCat === cat;
+            const okQ = !q || norm(card.getAttribute('data-termo') + ' ' + card.textContent).includes(q);
+            const show = okCat && okQ;
+            card.hidden = !show;
+            if (show) { secVis++; visiveis++; }
+          });
+          sec.hidden = secVis === 0;
+        });
+        empty.hidden = visiveis > 0;
+      }
+      search.addEventListener('input', aplicar);
+      chips.forEach((ch) => ch.addEventListener('click', () => {
+        chips.forEach((c) => c.classList.remove('active'));
+        ch.classList.add('active');
+        cat = ch.getAttribute('data-cat');
+        aplicar();
+      }));
+    })();
+  </script>
+</BaseLayout>

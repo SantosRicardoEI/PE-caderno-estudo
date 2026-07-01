@@ -1,6 +1,11 @@
-# 03 — Distribuições Discretas 🔴 PRIORITÁRIO
-
-> **Pré-requisito:** [medidas de v.a. discretas](02_variaveis_discretas_medidas.md).
+---
+titulo: "Distribuições discretas"
+ordem: 3
+prioridade: "alta"
+tempo: "1h"
+icone: "🔢"
+resumo: "Bernoulli, Binomial, Geométrica e Poisson."
+---> **Pré-requisito:** [medidas de v.a. discretas](/variaveis-discretas).
 > A **Binomial** e a **Poisson** saem muito. Este é um ficheiro de treino intenso.
 
 ---
@@ -38,7 +43,7 @@ $$E(X)=np \qquad V(X)=np(1-p) \qquad \binom{n}{x}=\frac{n!}{(n-x)!\,x!}$$
 **Truques essenciais:**
 $$P(X\ge k)=1-P(X\le k-1)=1-F_X(k-1) \qquad P(X> k)=1-F_X(k)$$
 
-> 💡 **Usa a tabela!** Tens uma **tabela da função de distribuição Binomial** ($n\le20$): lês $P(X\le x)=F_X(x)$ **diretamente** na linha $(n,x)$ e coluna $p$, sem calcular. Ex. (ex. 45): $\text{Bin}(15;0{,}05)$, $F_X(2)=0{,}9638$, logo $P(X>2)=1-0{,}9638=0{,}0362$. Se $p>0{,}5$ (fora das colunas), passa aos **insucessos** $Y=n-X\sim\text{Bin}(n,1-p)$. Ver [ficheiro 10](10_formulario_tabelas_como_usar.md) (secção 5.1, tabela Binomial).
+> 💡 **Usa a tabela!** Tens uma **tabela da função de distribuição Binomial** ($n\le20$): lês $P(X\le x)=F_X(x)$ **diretamente** na linha $(n,x)$ e coluna $p$, sem calcular. Ex. (ex. 45): $\text{Bin}(15;0{,}05)$, $F_X(2)=0{,}9638$, logo $P(X>2)=1-0{,}9638=0{,}0362$. Se $p>0{,}5$ (fora das colunas), passa aos **insucessos** $Y=n-X\sim\text{Bin}(n,1-p)$. Ver [ficheiro 10](/formulario-e-tabelas) (secção 5.1, tabela Binomial).
 
 Em R: `dbinom(x,n,p)` = $P(X=x)$; `pbinom(x,n,p)` = $P(X\le x)$; `pbinom(x,n,p,lower.tail=FALSE)` = $P(X>x)$.
 
@@ -115,7 +120,7 @@ Avarias/mês $X\sim\text{Poisson}(3)$.
 
 ## 7. Ligação ao teste de exemplo
 
-**Pergunta 1:** cada lance livre é Bernoulli(0,8); o total $S_{36}$ é a soma (Binomial), mas resolve-se por **[TLC](05_teorema_limite_central.md)**. Sabe reconhecer $E(X_i)=p$ e $V(X_i)=p(1-p)$.
+**Pergunta 1:** cada lance livre é Bernoulli(0,8); o total $S_{36}$ é a soma (Binomial), mas resolve-se por **[TLC](/teorema-limite-central)**. Sabe reconhecer $E(X_i)=p$ e $V(X_i)=p(1-p)$.
 
 ---
 
@@ -134,3 +139,4 @@ Avarias/mês $X\sim\text{Poisson}(3)$.
 4. Quando (e como) aproximo uma Binomial por uma Poisson?
 5. Numa Poisson, quanto vale a variância se a média é 5?
 6. O que diz a propriedade de falta de memória da Geométrica?
+

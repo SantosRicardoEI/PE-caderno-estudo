@@ -1,13 +1,18 @@
-# 11 — Exercícios Tipo-Teste Resolvidos Passo a Passo
-
-> Reúne as **4 perguntas do teste de exemplo** totalmente resolvidas + **exercícios representativos** de cada tipo prioritário, resolvidos à mão. Os valores finais estão **verificados** contra as soluções oficiais.
-> Fontes: [teste_exemplo](../content/teste_exemplo/enunciado/6_teste_exemplo.pdf) · [soluções](../content/teste_exemplo/solucoes/6_teste_exemplo_solucoes.pdf).
+---
+titulo: "Exercícios tipo-teste resolvidos"
+ordem: 11
+prioridade: "alta"
+tempo: "1h30"
+icone: "✍️"
+resumo: "Teste de exemplo e tipos-chave resolvidos passo a passo."
+---> Reúne as **4 perguntas do teste de exemplo** totalmente resolvidas + **exercícios representativos** de cada tipo prioritário, resolvidos à mão. Os valores finais estão **verificados** contra as soluções oficiais.
+> Fontes: [teste_exemplo](/content/teste_exemplo/enunciado/6_teste_exemplo.pdf) · [soluções](/content/teste_exemplo/solucoes/6_teste_exemplo_solucoes.pdf).
 
 ---
 
 # PARTE A — Teste de exemplo (as 4 perguntas)
 
-## A1. TLC com parcelas Bernoulli → [ficheiro 05](05_teorema_limite_central.md)
+## A1. TLC com parcelas Bernoulli → [ficheiro 05](/teorema-limite-central)
 
 **Enunciado:** $p=0{,}8$, 36 lances independentes. Aproxima $P(27\le S_{36}\le31)$.
 
@@ -20,7 +25,7 @@ $$\Phi\!\left(\tfrac{31-28{,}8}{\sqrt{5{,}76}}\right)-\Phi\!\left(\tfrac{26-28{,
 
 ---
 
-## A2. IC para a média com $t$ + relação IC/teste → [ficheiro 07](07_intervalos_de_confianca.md)
+## A2. IC para a média com $t$ + relação IC/teste → [ficheiro 07](/intervalos-de-confianca)
 
 **Enunciado:** Normal, $n=12$, $\sum x_i=1140$, $\sum x_i^2=108900$. IC 95% para $\mu$; e $\mu=90$ é plausível?
 
@@ -33,7 +38,7 @@ $$\Phi\!\left(\tfrac{31-28{,}8}{\sqrt{5{,}76}}\right)-\Phi\!\left(\tfrac{26-28{,
 
 ---
 
-## A3. Teste à média, σ conhecida, valor-p → [ficheiro 08](08_testes_de_hipoteses.md)
+## A3. Teste à média, σ conhecida, valor-p → [ficheiro 08](/testes-de-hipoteses)
 
 **Enunciado:** perigoso se $\mu>150$. $n=4$, $\bar{x}=155$, $\sigma=5$, Normal. Decidir pelo valor-p.
 
@@ -45,7 +50,7 @@ $$\Phi\!\left(\tfrac{31-28{,}8}{\sqrt{5{,}76}}\right)-\Phi\!\left(\tfrac{26-28{,
 
 ---
 
-## A4. Interpretação de output R (normalidade + `t.test`) → [ficheiro 09](09_testes_ajustamento_e_regressao.md)
+## A4. Interpretação de output R (normalidade + `t.test`) → [ficheiro 09](/ajustamento-e-regressao)
 
 **(a) Normalidade** (Shapiro-Wilk e Pearson, $n=15$): todos os valores-p > 0,1 ⇒ **não se rejeita** a normalidade. Como $n=15$ é pequeno, o **Shapiro-Wilk é o mais adequado**. Conclusão: Tipo 1 e Tipo 2 podem considerar-se Normais. (QQ-plots com alguns desvios/outliers, mas os testes confirmam normalidade.)
 
@@ -121,3 +126,4 @@ Dado equilibrado? 300 lançamentos, $O=(43,49,56,45,66,41)$. $H_0:p_i=\tfrac16$,
 1. Consegues resolver A1–A4 de memória, só com o formulário e as tabelas?
 2. Dado um enunciado novo, em quanto tempo identificas o tipo e a fórmula?
 3. Sabes justificar cada decisão ("rejeita-se porque…")?
+

@@ -1,0 +1,36 @@
+---
+import type { MarkdownHeading } from 'astro';
+interface Props { headings: MarkdownHeading[] }
+const { headings } = Astro.props;
+// Só H2 e H3 para um índice limpo
+const items = headings.filter((h) => h.depth === 2 || h.depth === 3);
+---
+{items.length > 0 && (
+  <aside class="toc" aria-label="Nesta página">
+    <nav>
+      <h2>Nesta página</h2>
+      {items.map((h) => (
+        <a href={`#${h.slug}`} class={h.depth === 3 ? 'h3' : 'h2'} data-toc={h.slug}>{h.text}</a>
+      ))}
+    </nav>
+    <script is:inline>
+      (function () {
+        const links = Array.from(document.querySelectorAll('.toc a[data-toc]'));
+        if (!links.length) return;
+        const byId = new Map(links.map((a) => [a.getAttribute('data-toc'), a]));
+        const obs = new IntersectionObserver(
+          (entries) => {
+            entries.forEach((e) => {
+              if (e.isIntersecting) {
+                links.forEach((l) => l.classList.remove('active'));
+                byId.get(e.target.id)?.classList.add('active');
+              }
+            });
+          },
+          { rootMargin: '-10% 0px -80% 0px', threshold: 0 }
+        );
+        document.querySelectorAll('.prose h2[id], .prose h3[id]').forEach((h) => obs.observe(h));
+      })();
+    </script>
+  </aside>
+)}

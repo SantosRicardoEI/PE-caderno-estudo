@@ -1,0 +1,23 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import CalculadoraTabelas from '../../components/CalculadoraTabelas.tsx';
+---
+<BaseLayout title="Calculadoras de tabelas" description="Φ(z), quantis t e χ², e probabilidades Binomiais — sem procurar na tabela." current="/ferramentas/tabelas" wide>
+  <main class="prose wide" id="conteudo">
+    <h1>🧮 Calculadoras de tabelas</h1>
+    <p class="resumo" style="color:var(--text-soft)">
+      Consulta <span class="conceito" data-conceito="phi">Φ(z)</span>, quantis da{' '}
+      <span class="conceito" data-conceito="t-student">t-Student</span> e do{' '}
+      <span class="conceito" data-conceito="qui-quadrado">qui-quadrado</span>, e probabilidades{' '}
+      <span class="conceito" data-conceito="binomial">Binomiais</span> — os mesmos valores das tabelas do teste.
+    </p>
+
+    <CalculadoraTabelas client:load />
+
+    <blockquote class="callout-tip">
+      <p>💡 As calculadoras usam os mesmos valores das tabelas oficiais (validado: Φ(1,16)=0,8770, t₁₁(0,975)=2,201, χ²₉(0,995)=23,589, Bin(15;0,05) F(2)=0,9638). No teste terás as tabelas em papel — usa isto para <strong>treinar</strong> e confirmar.</p>
+    </blockquote>
+
+    <p><a href="/formulario-e-tabelas">→ Como ler cada tabela, passo a passo</a></p>
+  </main>
+</BaseLayout>

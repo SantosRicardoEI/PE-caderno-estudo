@@ -1,0 +1,50 @@
+---
+import { getCollection, render } from 'astro:content';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import TOC from '../components/TOC.astro';
+
+export async function getStaticPaths() {
+  const temas = (await getCollection('caderno'))
+    .filter((e) => e.data.ordem >= 1)
+    .sort((a, b) => a.data.ordem - b.data.ordem);
+  return temas.map((entry, i) => ({
+    params: { slug: entry.id },
+    props: { entry, prev: temas[i - 1] ?? null, next: temas[i + 1] ?? null },
+  }));
+}
+
+const { entry, prev, next } = Astro.props;
+const { Content, headings } = await render(entry);
+const d = entry.data;
+---
+<BaseLayout title={d.titulo} description={d.resumo} current={entry.id}>
+  <main class="prose" id="conteudo">
+    <div class="doc-head">
+      <div class="eyebrow">
+        <span class="badge">{d.icone} Tema {d.ordem}</span>
+        {d.prioridade === 'alta' && <span class="badge badge--prio">Prioritário</span>}
+        {d.prioridade === 'media-alta' && <span class="badge">Importante</span>}
+        {d.tempo && <span class="badge badge--time">⏱ {d.tempo}</span>}
+      </div>
+      <h1>{d.titulo}</h1>
+      {d.resumo && <p class="resumo">{d.resumo}</p>}
+    </div>
+
+    <Content />
+
+    <nav class="pager" aria-label="Navegação entre temas">
+      {prev ? (
+        <a href={`/${prev.id}`}><span class="dir">← Anterior</span><br /><span class="ttl">{prev.data.titulo}</span></a>
+      ) : (
+        <span style="flex:1"></span>
+      )}
+      {next ? (
+        <a class="next" href={`/${next.id}`}><span class="dir">Seguinte →</span><br /><span class="ttl">{next.data.titulo}</span></a>
+      ) : (
+        <span style="flex:1"></span>
+      )}
+    </nav>
+  </main>
+
+  <TOC slot="aside" headings={headings} />
+</BaseLayout>

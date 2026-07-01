@@ -1,0 +1,173 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { getCollection, render } from 'astro:content';
+
+const TEMA_LABEL: Record<string, string> = {
+  'conceitos-base': 'Conceitos base',
+  'variaveis-discretas': 'V.A. discretas',
+  'distribuicoes-discretas': 'Distrib. discretas',
+  'variaveis-continuas': 'V.A. contínuas',
+  'teorema-limite-central': 'TLC',
+  'estimacao-pontual': 'Estimação',
+  'intervalos-de-confianca': 'Interv. confiança',
+  'testes-de-hipoteses': 'Testes hipóteses',
+  'ajustamento-e-regressao': 'Regressão',
+};
+const FICHA_LABEL: Record<string, string> = {
+  cap4: 'Cap 4 · V.A. Reais',
+  cap5: 'Cap 5 · Inferência',
+};
+
+const entries = (await getCollection('exercicios')).sort((a, b) => a.data.num - b.data.num);
+const rendered = await Promise.all(entries.map(async (e) => ({ e, ...(await render(e)) })));
+
+const total = entries.length;
+const comSol = entries.filter((e) => e.data.temSolucao).length;
+const temasPresentes = [...new Set(entries.flatMap((e) => e.data.temas))]
+  .filter((t) => TEMA_LABEL[t])
+  .sort((a, b) => TEMA_LABEL[a].localeCompare(TEMA_LABEL[b], 'pt'));
+const tiposPresentes = [...new Set(entries.flatMap((e) => e.data.tipos))].sort((a, b) => a.localeCompare(b, 'pt'));
+
+const busca = (e: (typeof entries)[number]) =>
+  [e.data.num, e.data.contexto, ...e.data.temas.map((t) => TEMA_LABEL[t] || t), ...e.data.tipos].join(' ').toLowerCase();
+---
+<BaseLayout title="Exercícios das fichas" description={`Todos os exercícios das fichas (${total}) com soluções, filtráveis por tema e ordenáveis por número.`} current="/exercicios" wide>
+  <main class="prose wide" id="conteudo">
+    <h1>🗂️ Exercícios das fichas</h1>
+    <p class="resumo" style="color:var(--text-soft)">
+      Os <strong>{total}</strong> exercícios das fichas (Cap 4 e Cap 5), resolvidos passo a passo.
+      Filtra por <span class="conceito" data-conceito="funcao-probabilidade">tema</span>, ordena por número e tapa as soluções para treinares.{' '}
+      <em>{comSol} têm solução.</em>
+    </p>
+
+    <div class="ex-controls">
+      <div class="ex-toolbar">
+        <input id="ex-search" type="search" placeholder="Pesquisar por nº, contexto…" aria-label="Pesquisar exercícios" autocomplete="off" />
+        <label class="ex-field">
+          <span>Tema</span>
+          <select id="ex-tema" aria-label="Filtrar por tema">
+            <option value="__all">Todos</option>
+            {temasPresentes.map((t) => <option value={t}>{TEMA_LABEL[t]}</option>)}
+          </select>
+        </label>
+        <label class="ex-field">
+          <span>Tipo</span>
+          <select id="ex-tipo" aria-label="Filtrar por tipo">
+            <option value="__all">Todos</option>
+            {tiposPresentes.map((t) => <option value={t}>{t}</option>)}
+          </select>
+        </label>
+        <label class="ex-field">
+          <span>Ficha</span>
+          <select id="ex-ficha" aria-label="Filtrar por ficha">
+            <option value="__all">Todas</option>
+            <option value="cap4">Cap 4 · V.A. Reais</option>
+            <option value="cap5">Cap 5 · Inferência</option>
+          </select>
+        </label>
+        <button id="ex-sort" class="ex-btn" type="button" aria-label="Ordenar por número" data-order="asc">Nº ↑</button>
+      </div>
+
+      <div class="ex-toolbar__sub">
+        <span class="ex-count-line">A mostrar <b id="ex-count">{total} de {total}</b> exercícios</span>
+        <div class="ex-toolbar__actions">
+          <label class="ex-toggle"><input type="checkbox" id="ex-sol-only" /> só com solução</label>
+          <button id="ex-sol-toggle" class="ex-btn ex-btn--ghost" type="button">Fechar soluções</button>
+        </div>
+      </div>
+    </div>
+
+    <p id="ex-empty" class="gloss-empty" hidden>Sem resultados para estes filtros.</p>
+
+    <div id="ex-grid" class="ex-grid">
+      {rendered.map(({ e, Content }) => (
+        <article
+          class="ex-card"
+          id={`ex-${e.data.num}`}
+          data-num={e.data.num}
+          data-ficha={e.data.ficha}
+          data-temas={e.data.temas.join(' ')}
+          data-tipos={e.data.tipos.join(' ')}
+          data-sol={e.data.temSolucao ? '1' : '0'}
+          data-busca={busca(e)}
+        >
+          <header class="ex-card__head">
+            <a class="ex-card__num" href={`#ex-${e.data.num}`} aria-label={`Exercício ${e.data.num}`}>{e.data.num}</a>
+            <div class="ex-card__meta">
+              <p class="ex-card__ctx">{e.data.contexto}</p>
+              <div class="ex-card__tags">
+                <span class={`ex-tag ex-tag--ficha ex-tag--${e.data.ficha}`}>{FICHA_LABEL[e.data.ficha]}</span>
+                {e.data.temas.filter((t) => TEMA_LABEL[t]).map((t) => (
+                  <a class="ex-tag ex-tag--tema" href={`/${t}`}>{TEMA_LABEL[t]}</a>
+                ))}
+                {e.data.tipos.map((t) => <span class="ex-tag ex-tag--tipo">{t}</span>)}
+                {!e.data.temSolucao && <span class="ex-tag ex-tag--nosol">sem solução oficial</span>}
+              </div>
+            </div>
+          </header>
+          <div class="ex-card__corpo">
+            <Content />
+          </div>
+        </article>
+      ))}
+    </div>
+  </main>
+
+  <script is:inline>
+    (function () {
+      const grid = document.getElementById('ex-grid');
+      const cards = Array.from(grid.children);
+      const search = document.getElementById('ex-search');
+      const empty = document.getElementById('ex-empty');
+      const counter = document.getElementById('ex-count');
+      const sortBtn = document.getElementById('ex-sort');
+      const solToggle = document.getElementById('ex-sol-toggle');
+      const solOnly = document.getElementById('ex-sol-only');
+      const temaSelEl = document.getElementById('ex-tema');
+      const tipoSelEl = document.getElementById('ex-tipo');
+      const fichaSelEl = document.getElementById('ex-ficha');
+      let temaSel = '__all', tipoSel = '__all', fichaSel = '__all', ordem = 'asc';
+      const norm = (s) => (s || '').normalize('NFD').replace(/[̀-ͯ]/g, '').toLowerCase();
+
+      function aplicar() {
+        const q = norm(search.value.trim());
+        let vis = 0;
+        cards.forEach((card) => {
+          const temas = (card.dataset.temas || '').split(' ');
+          const tipos = (card.dataset.tipos || '').split(' ');
+          const ok =
+            (temaSel === '__all' || temas.includes(temaSel)) &&
+            (tipoSel === '__all' || tipos.includes(tipoSel)) &&
+            (fichaSel === '__all' || card.dataset.ficha === fichaSel) &&
+            (!solOnly.checked || card.dataset.sol === '1') &&
+            (!q || norm(card.dataset.busca).includes(q));
+          card.hidden = !ok;
+          if (ok) vis++;
+        });
+        counter.textContent = vis + ' de ' + cards.length;
+        empty.hidden = vis > 0;
+      }
+      function ordenar() {
+        [...cards]
+          .sort((a, b) => (ordem === 'asc' ? a.dataset.num - b.dataset.num : b.dataset.num - a.dataset.num))
+          .forEach((c) => grid.appendChild(c));
+      }
+      search.addEventListener('input', aplicar);
+      solOnly.addEventListener('change', aplicar);
+      temaSelEl.addEventListener('change', () => { temaSel = temaSelEl.value; aplicar(); });
+      tipoSelEl.addEventListener('change', () => { tipoSel = tipoSelEl.value; aplicar(); });
+      fichaSelEl.addEventListener('change', () => { fichaSel = fichaSelEl.value; aplicar(); });
+      sortBtn.addEventListener('click', () => {
+        ordem = ordem === 'asc' ? 'desc' : 'asc';
+        sortBtn.textContent = ordem === 'asc' ? 'Nº ↑' : 'Nº ↓';
+        ordenar();
+      });
+      solToggle.addEventListener('click', () => {
+        const dets = Array.from(grid.querySelectorAll('details.ex-sol'));
+        const algumAberto = dets.some((d) => d.open);
+        dets.forEach((d) => (d.open = !algumAberto));
+        solToggle.textContent = algumAberto ? 'Abrir soluções' : 'Fechar soluções';
+      });
+    })();
+  </script>
+</BaseLayout>

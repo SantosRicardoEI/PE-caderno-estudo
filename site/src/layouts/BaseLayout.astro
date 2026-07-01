@@ -1,0 +1,67 @@
+---
+import 'katex/dist/katex.min.css';
+import '../styles/global.css';
+import Sidebar from '../components/Sidebar.astro';
+import Tooltips from '../components/Tooltips.astro';
+
+interface Props {
+  title: string;
+  description?: string;
+  current?: string;
+  wide?: boolean;
+}
+const { title, description = 'Caderno de estudo interativo de Probabilidade e Estatística.', current } = Astro.props;
+const fullTitle = title === 'Início — Caderno de Estudo' ? 'Caderno PE — Probabilidade e Estatística' : `${title} · Caderno PE`;
+---
+<!doctype html>
+<html lang="pt-PT" data-theme="dark">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{fullTitle}</title>
+    <meta name="description" content={description} />
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%232f6f6a'/%3E%3Ctext x='16' y='22' font-size='18' text-anchor='middle' fill='white' font-family='sans-serif' font-weight='bold'%3E%CF%83%3C/text%3E%3C/svg%3E" />
+    <meta name="color-scheme" content="dark" />
+  </head>
+  <body>
+    <a class="skip-link" href="#conteudo">Saltar para o conteúdo</a>
+
+    <header class="topbar">
+      <button class="icon-btn menu-btn" id="menu-btn" aria-label="Abrir menu" aria-expanded="false">☰</button>
+      <a class="topbar__brand" href="/">
+        <span class="logo" aria-hidden="true">σ</span>
+        <span>Caderno&nbsp;PE</span>
+      </a>
+      <nav class="topbar__nav" aria-label="Principal">
+        <a href="/exercicios" aria-current={current === '/exercicios' ? 'page' : undefined}>Exercícios</a>
+        <a href="/glossario" aria-current={current === '/glossario' ? 'page' : undefined}>Glossário</a>
+        <a href="/ferramentas/tabelas" aria-current={current === '/ferramentas/tabelas' ? 'page' : undefined}>Calculadoras</a>
+        <a href="/ferramentas/distribuicoes" aria-current={current === '/ferramentas/distribuicoes' ? 'page' : undefined}>Distribuições</a>
+      </nav>
+    </header>
+
+    <div class="shell">
+      <div class="scrim" id="scrim" aria-hidden="true"></div>
+      <Sidebar current={current} />
+      <div class="content-wrap">
+        <slot />
+      </div>
+      <slot name="aside" />
+    </div>
+
+    <Tooltips />
+
+    <script is:inline>
+      // Menu móvel
+      const menu = document.getElementById('menu-btn');
+      const scrim = document.getElementById('scrim');
+      const toggle = (open) => {
+        document.body.classList.toggle('nav-open', open);
+        menu?.setAttribute('aria-expanded', String(open));
+      };
+      menu?.addEventListener('click', () => toggle(!document.body.classList.contains('nav-open')));
+      scrim?.addEventListener('click', () => toggle(false));
+      document.addEventListener('keydown', (e) => { if (e.key === 'Escape') toggle(false); });
+    </script>
+  </body>
+</html>

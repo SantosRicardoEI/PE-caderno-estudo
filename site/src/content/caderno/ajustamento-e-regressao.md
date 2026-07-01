@@ -1,6 +1,11 @@
-# 09 — Testes de Ajustamento, Normalidade e Regressão
-
-> **Pré-requisito:** [testes de hipóteses](08_testes_de_hipoteses.md).
+---
+titulo: "Ajustamento, normalidade e regressão"
+ordem: 9
+prioridade: "media-alta"
+tempo: "1h"
+icone: "🧪"
+resumo: "Qui-quadrado, normalidade, regressão e correlação."
+---> **Pré-requisito:** [testes de hipóteses](/testes-de-hipoteses).
 > Cobre: teste qui-quadrado de ajustamento, testes de normalidade (para saber se podes usar $t$/$\chi^2$) e regressão/correlação. A **interpretação de output do R** aqui é diretamente cobrada (Pergunta 4 do teste).
 
 ---
@@ -175,3 +180,4 @@ Multiple R-squared: 0.8115
 5. O que significa rejeitar $H_0:b=0$ numa regressão? E o que mede $r^2$?
 6. Quando uso Spearman em vez de Pearson?
 7. Interpreta a linha `p-value = 0.8604, alternative: true mean is less than 0` de um `t.test`.
+

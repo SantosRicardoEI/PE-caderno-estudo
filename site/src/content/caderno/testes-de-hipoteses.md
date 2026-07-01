@@ -1,6 +1,11 @@
-# 08 — Testes de Hipóteses 🔴 PRIORITÁRIO
-
-> **Pré-requisitos:** [IC](07_intervalos_de_confianca.md), [Normal](04_variaveis_continuas_e_distribuicoes.md).
+---
+titulo: "Testes de hipóteses"
+ordem: 8
+prioridade: "alta"
+tempo: "1h15"
+icone: "⚖️"
+resumo: "H0/H1, região crítica, valor-p e testes paramétricos."
+---> **Pré-requisitos:** [IC](/intervalos-de-confianca), [Normal](/variaveis-continuas).
 > **Sai quase de certeza** (Perguntas 3 e 4 do teste). A lógica é a mesma dos ICs, mas agora **decidimos** sobre uma afirmação.
 
 ---
@@ -72,7 +77,7 @@ A estatística de teste é a **variável fulcral do IC** com o parâmetro substi
 
 > Na proporção, a estatística de teste usa $p_0$ (valor de $H_0$) **no denominador**, ao contrário do IC que usa $\bar{x}$.
 
-> **Comparar duas populações (aparece só como interpretação de R):** a matéria não pede o cálculo à mão de testes a **duas amostras**, mas o teste de exemplo (P4) usa um `t.test` sobre a **diferença** $X_1-X_2$. Trata-se como um teste-$t$ **a uma amostra** aplicado à variável "diferença" (com $H_0:\mu_1-\mu_2=0$). É válido se ambas as populações forem Normais. Ver a leitura do output no [ficheiro 09](09_testes_ajustamento_e_regressao.md) (secção 5, interpretar output do R).
+> **Comparar duas populações (aparece só como interpretação de R):** a matéria não pede o cálculo à mão de testes a **duas amostras**, mas o teste de exemplo (P4) usa um `t.test` sobre a **diferença** $X_1-X_2$. Trata-se como um teste-$t$ **a uma amostra** aplicado à variável "diferença" (com $H_0:\mu_1-\mu_2=0$). É válido se ambas as populações forem Normais. Ver a leitura do output no [ficheiro 09](/ajustamento-e-regressao) (secção 5, interpretar output do R).
 
 ---
 
@@ -138,7 +143,7 @@ $$\theta_0\notin IC_{(1-\alpha)}\ \Longleftrightarrow\ \text{rejeita-se }H_0 \qq
 ## 10. Ligação ao teste de exemplo
 
 - **Pergunta 3** — teste à média com $\sigma$ conhecido, decisão pelo **valor-p** (resolvido acima).
-- **Pergunta 4** — interpretação de um `t.test` (amostras) e de testes de normalidade → ver [ficheiro 09](09_testes_ajustamento_e_regressao.md).
+- **Pergunta 4** — interpretação de um `t.test` (amostras) e de testes de normalidade → ver [ficheiro 09](/ajustamento-e-regressao).
 
 ---
 
@@ -159,3 +164,4 @@ $$\theta_0\notin IC_{(1-\alpha)}\ \Longleftrightarrow\ \text{rejeita-se }H_0 \qq
 5. Como escolho entre teste uni e bilateral a partir do enunciado?
 6. Como relaciono um IC a 95% com um teste bilateral a 5%?
 7. Porque não se diz "aceita-se $H_0$"?
+

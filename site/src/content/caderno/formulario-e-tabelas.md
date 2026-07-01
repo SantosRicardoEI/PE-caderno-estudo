@@ -1,6 +1,11 @@
-# 10 — Formulário e Tabelas: para que serve cada coisa
-
-> Este ficheiro **decifra o formulário oficial** ([content/consulta/formulario_teste.pdf](../content/consulta/formulario_teste.pdf)) e ensina a **ler as tabelas** ([content/consulta/tabelas_estatisticas.pdf](../content/consulta/tabelas_estatisticas.pdf)). No teste tens estas folhas — o que conta é saber **quando** usar cada fórmula.
+---
+titulo: "Formulário e tabelas: como usar"
+ordem: 10
+prioridade: "alta"
+tempo: "45 min"
+icone: "📖"
+resumo: "Cada fórmula explicada e como ler as tabelas."
+---> Este ficheiro **decifra o formulário oficial** ([content/consulta/formulario_teste.pdf](/content/consulta/formulario_teste.pdf)) e ensina a **ler as tabelas** ([content/consulta/tabelas_estatisticas.pdf](/content/consulta/tabelas_estatisticas.pdf)). No teste tens estas folhas — o que conta é saber **quando** usar cada fórmula.
 
 ---
 
@@ -60,9 +65,9 @@
 | $E(X)=\sum_x x f_X(x)$; $E(aX+b)=aE(X)+b$ | Valor esperado e sua linearidade. |
 | $V(X)=E(X^2)-E^2(X)$; $V(aX+b)=a^2V(X)$ | Variância (fórmula prática + transformação). |
 | $P(x_0<X\le x_1)=F_X(x_1)-F_X(x_0)$ | Probabilidade de intervalo via $F_X$. |
-| Bernoulli/Binomial: $E,V$ e $P(X=x)$ | [Ficheiro 03](03_distribuicoes_discretas.md). |
+| Bernoulli/Binomial: $E,V$ e $P(X=x)$ | [Ficheiro 03](/distribuicoes-discretas). |
 | $Z=\dfrac{X-\mu}{\sigma}\sim N(0,1)$ | **Padronização** da Normal. |
-| $\dfrac{S_n-E(S_n)}{\sqrt{V(S_n)}}\overset{a}{\sim}N(0,1)$ | **TLC** ([ficheiro 05](05_teorema_limite_central.md)). |
+| $\dfrac{S_n-E(S_n)}{\sqrt{V(S_n)}}\overset{a}{\sim}N(0,1)$ | **TLC** ([ficheiro 05](/teorema-limite-central)). |
 
 ---
 
@@ -78,7 +83,7 @@
 **Regras da Normal padrão (no formulário):**
 $$P(a<Z<b)=\Phi(b)-\Phi(a) \qquad \Phi(-x)=1-\Phi(x) \qquad \Phi^{-1}(p)=-\Phi^{-1}(1-p)$$
 
-**Regiões críticas e valor-p (conforme $H_1$):** ver tabela no [ficheiro 08](08_testes_de_hipoteses.md) (está também no formulário).
+**Regiões críticas e valor-p (conforme $H_1$):** ver tabela no [ficheiro 08](/testes-de-hipoteses) (está também no formulário).
 
 ---
 
@@ -156,3 +161,4 @@ Esta tabela poupa-te procurar "às cegas" dentro da tabela $\Phi$. Entra com a *
 4. Porque preciso de dois quantis diferentes na tabela do qui-quadrado?
 5. Quais os graus de liberdade em: IC-$t$, IC-variância, regressão, ajustamento?
 6. Qual a diferença entre leitura direta ($z\to\Phi$) e inversa ($p\to z$)?
+

@@ -1,0 +1,94 @@
+---
+// Injeta os dados dos conceitos e monta o controlador global de tooltips.
+import { conceitos } from '../data/conceitos.mjs';
+import { construirDados } from '../lib/render-conceitos.mjs';
+const dados = construirDados(conceitos);
+const dadosJson = JSON.stringify(dados).replace(/</g, '\\u003c');
+---
+<script type="application/json" id="conceitos-data" set:html={dadosJson} is:inline></script>
+<div id="conceito-pop" class="conceito-pop" role="tooltip" hidden></div>
+
+<script>
+  import { computePosition, offset, flip, shift, arrow, autoUpdate } from '@floating-ui/dom';
+
+  const dataEl = document.getElementById('conceitos-data');
+  const pop = document.getElementById('conceito-pop');
+  if (dataEl && pop) {
+    const DADOS = JSON.parse(dataEl.textContent || '{}');
+    pop.innerHTML = '<div class="conceito-pop__inner"></div><div class="conceito-pop__arrow"></div>';
+    const inner = pop.querySelector('.conceito-pop__inner');
+    const arrowEl = pop.querySelector('.conceito-pop__arrow');
+
+    let alvoAtual = null;
+    let cleanup = null;
+    let timerFechar = null;
+
+    function posicionar(alvo) {
+      computePosition(alvo, pop, {
+        placement: 'top',
+        middleware: [offset(10), flip({ padding: 8 }), shift({ padding: 8 }), arrow({ element: arrowEl, padding: 6 })],
+      }).then(({ x, y, placement, middlewareData }) => {
+        Object.assign(pop.style, { left: `${x}px`, top: `${y}px` });
+        const side = placement.split('-')[0];
+        const staticSide = { top: 'bottom', bottom: 'top', left: 'right', right: 'left' }[side];
+        const ax = middlewareData.arrow?.x;
+        const ay = middlewareData.arrow?.y;
+        Object.assign(arrowEl.style, {
+          left: ax != null ? `${ax}px` : '',
+          top: ay != null ? `${ay}px` : '',
+          [staticSide]: '-5px',
+        });
+        pop.dataset.side = staticSide;
+      });
+    }
+
+    function abrir(alvo) {
+      const id = alvo.getAttribute('data-conceito');
+      const d = DADOS[id];
+      if (!d) return;
+      clearTimeout(timerFechar);
+      alvoAtual = alvo;
+      const more = d.href ? `<a class="conceito-pop__more" href="${d.href}">ver conceito &rarr;</a>` : '';
+      inner.innerHTML = `<div class="conceito-pop__termo">${d.termoHtml}</div><div class="conceito-pop__def">${d.html}</div>${more}`;
+      pop.hidden = false;
+      if (cleanup) cleanup();
+      cleanup = autoUpdate(alvo, pop, () => posicionar(alvo));
+    }
+
+    function fechar() {
+      timerFechar = window.setTimeout(() => {
+        pop.hidden = true;
+        alvoAtual = null;
+        if (cleanup) { cleanup(); cleanup = null; }
+      }, 120);
+    }
+
+    // Rato
+    document.addEventListener('pointerover', (e) => {
+      const alvo = e.target.closest?.('.conceito[data-conceito]');
+      if (alvo) abrir(alvo);
+    });
+    document.addEventListener('pointerout', (e) => {
+      const alvo = e.target.closest?.('.conceito[data-conceito]');
+      if (alvo && !alvo.contains(e.relatedTarget) && !pop.contains(e.relatedTarget)) fechar();
+    });
+    // Manter aberto quando o rato entra no popover
+    pop.addEventListener('pointerenter', () => clearTimeout(timerFechar));
+    pop.addEventListener('pointerleave', fechar);
+
+    // Toque / clique
+    document.addEventListener('click', (e) => {
+      const alvo = e.target.closest?.('.conceito[data-conceito]');
+      if (alvo) {
+        if (alvoAtual === alvo && !pop.hidden) { pop.hidden = true; alvoAtual = null; }
+        else abrir(alvo);
+      } else if (!pop.contains(e.target)) {
+        pop.hidden = true; alvoAtual = null;
+      }
+    });
+    // Esc
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && !pop.hidden) { pop.hidden = true; alvoAtual = null; }
+    });
+  }
+</script>

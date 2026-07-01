@@ -1,0 +1,53 @@
+---
+import { getCollection } from 'astro:content';
+
+interface Props { current?: string }
+const { current } = Astro.props;
+
+const temas = (await getCollection('caderno'))
+  .filter((e) => e.data.ordem >= 1)
+  .sort((a, b) => a.data.ordem - b.data.ordem);
+
+const ferramentas = [
+  { href: '/glossario', rot: 'Glossário', ico: '📔' },
+  { href: '/ferramentas/tabelas', rot: 'Calculadoras', ico: '🧮' },
+  { href: '/ferramentas/distribuicoes', rot: 'Distribuições', ico: '📉' },
+];
+---
+<nav class="sidebar" aria-label="Navegação de temas">
+  <h2>Começar</h2>
+  <a class="sidebar__link" href="/" aria-current={current === 'inicio' ? 'page' : undefined}>
+    <span class="sidebar__num" aria-hidden="true">★</span>
+    <span class="sidebar__txt">Início<span class="sidebar__meta">Ordem e prioridades</span></span>
+  </a>
+
+  <h2>Temas</h2>
+  {temas.map((t) => (
+    <a
+      class="sidebar__link"
+      href={`/${t.id}`}
+      aria-current={current === t.id ? 'page' : undefined}
+    >
+      <span class="sidebar__num" aria-hidden="true">{t.data.ordem}</span>
+      <span class="sidebar__txt">
+        {t.data.titulo}
+        {t.data.tempo && <span class="sidebar__meta">{t.data.tempo}</span>}
+      </span>
+      {t.data.prioridade === 'alta' && <span class="dot-prio" title="Tema prioritário"></span>}
+    </a>
+  ))}
+
+  <h2>Prática</h2>
+  <a class="sidebar__link" href="/exercicios" aria-current={current === '/exercicios' ? 'page' : undefined}>
+    <span class="sidebar__num" aria-hidden="true">🗂️</span>
+    <span class="sidebar__txt">Exercícios das fichas<span class="sidebar__meta">40–100 + soluções</span></span>
+  </a>
+
+  <h2>Ferramentas</h2>
+  {ferramentas.map((f) => (
+    <a class="sidebar__link" href={f.href} aria-current={current === f.href ? 'page' : undefined}>
+      <span class="sidebar__num" aria-hidden="true">{f.ico}</span>
+      <span class="sidebar__txt">{f.rot}</span>
+    </a>
+  ))}
+</nav>

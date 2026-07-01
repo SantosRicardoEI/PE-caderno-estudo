@@ -1,0 +1,25 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import VisualizadorDistribuicao from '../../components/VisualizadorDistribuicao.tsx';
+---
+<BaseLayout title="Visualizadores de distribuições" description="Mexe nos parâmetros e vê a curva (PMF/PDF/CDF), a área P(a≤X≤b) e E(X)/V(X)." current="/ferramentas/distribuicoes" wide>
+  <main class="prose wide" id="conteudo">
+    <h1>📉 Visualizadores de distribuições</h1>
+    <p class="resumo" style="color:var(--text-soft)">
+      Escolhe a distribuição, arrasta os parâmetros e vê a{' '}
+      <span class="conceito" data-conceito="funcao-probabilidade">função de probabilidade</span> /{' '}
+      <span class="conceito" data-conceito="funcao-densidade">densidade</span>, a{' '}
+      <span class="conceito" data-conceito="funcao-distribuicao">função de distribuição</span> (CDF),
+      a área de um intervalo e o <span class="conceito" data-conceito="valor-esperado">valor esperado</span> e a{' '}
+      <span class="conceito" data-conceito="variancia">variância</span>.
+    </p>
+
+    <VisualizadorDistribuicao client:load />
+
+    <blockquote class="callout-tip">
+      <p>💡 Compara: na <span class="conceito" data-conceito="binomial">Binomial</span> aumenta o <em>n</em> e vê a forma aproximar-se de um sino; na <span class="conceito" data-conceito="normal">Normal</span> muda o <em>σ</em> e repara como a área se espalha. Preenche só <b>a</b> para <b>P(X ≥ a)</b>, só <b>b</b> para <b>P(X ≤ b)</b>, ou ambos.</p>
+    </blockquote>
+
+    <p><a href="/ferramentas/tabelas">→ Calculadoras de tabelas</a> · <a href="/distribuicoes-discretas">→ Rever distribuições discretas</a> · <a href="/variaveis-continuas">→ Rever distribuições contínuas</a></p>
+  </main>
+</BaseLayout>

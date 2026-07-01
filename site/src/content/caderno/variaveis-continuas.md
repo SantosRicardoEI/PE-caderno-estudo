@@ -1,7 +1,12 @@
-# 04 — Variáveis Aleatórias Contínuas e Distribuições 🔴 PRIORITÁRIO
-
-> **Pré-requisito:** [conceitos base](01_variaveis_aleatorias_conceitos_base.md).
-> A **Normal** é a distribuição mais importante de todo o teste. Domina a padronização e a leitura da tabela ([ver ficheiro 10](10_formulario_tabelas_como_usar.md)).
+---
+titulo: "Variáveis contínuas e distribuições"
+ordem: 4
+prioridade: "alta"
+tempo: "1h15"
+icone: "📈"
+resumo: "Densidade, Normal (padronização), Exponencial e Uniforme."
+---> **Pré-requisito:** [conceitos base](/conceitos-base).
+> A **Normal** é a distribuição mais importante de todo o teste. Domina a padronização e a leitura da tabela ([ver ficheiro 10](/formulario-e-tabelas)).
 
 ---
 
@@ -50,7 +55,7 @@ onde $\Phi(z)=P(Z\le z)$ é a função de distribuição da Normal padrão (a qu
 | $\Phi(-z)=1-\Phi(z)$ | valores negativos não estão na tabela |
 | $\Phi^{-1}(p)=-\Phi^{-1}(1-p)$ | quantis à esquerda a partir dos da direita |
 | Se $Y=aX+b$, então $Y\sim N(a\mu+b,\ a^2\sigma^2)$ | transformações lineares continuam Normais |
-| Soma de Normais independentes é Normal (ver [TLC](05_teorema_limite_central.md)) | somas/médias |
+| Soma de Normais independentes é Normal (ver [TLC](/teorema-limite-central)) | somas/médias |
 
 - **Quando se usa:** medições, alturas, pesos, tempos de vida, erros — quase tudo o que é "natural e simétrico".
 - **Como se aplica (receita):** (1) escreve $X\sim N(\mu,\sigma^2)$; (2) padroniza; (3) lê $\Phi$ na tabela; (4) usa $\Phi(-z)=1-\Phi(z)$ se precisares.
@@ -155,3 +160,4 @@ Peça tipo A: $\lambda=1/2$; tipo B: $\lambda=1$; duração em centenas de horas
 4. Divides por $\sigma$ ou por $\sigma^2$ ao padronizar?
 5. Qual a f.d.p. e a $F_X$ da Exponencial? O que é a falta de memória?
 6. $E(X)$ e $V(X)$ de uma Uniforme$(0,2)$?
+
