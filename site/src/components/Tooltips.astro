@@ -26,6 +26,7 @@ const dadosJson = JSON.stringify(dados).replace(/</g, '\\u003c');
     function posicionar(alvo) {
       computePosition(alvo, pop, {
         placement: 'top',
+        strategy: 'fixed',
         middleware: [offset(10), flip({ padding: 8 }), shift({ padding: 8 }), arrow({ element: arrowEl, padding: 6 })],
       }).then(({ x, y, placement, middlewareData }) => {
         Object.assign(pop.style, { left: `${x}px`, top: `${y}px` });
@@ -63,12 +64,15 @@ const dadosJson = JSON.stringify(dados).replace(/</g, '\\u003c');
       }, 120);
     }
 
-    // Rato
+    // Rato (só hover de rato; no toque o pointerover dispararia no mesmo tap
+    // que o click e o toggle fecharia logo a tooltip)
     document.addEventListener('pointerover', (e) => {
+      if (e.pointerType !== 'mouse') return;
       const alvo = e.target.closest?.('.conceito[data-conceito]');
       if (alvo) abrir(alvo);
     });
     document.addEventListener('pointerout', (e) => {
+      if (e.pointerType !== 'mouse') return;
       const alvo = e.target.closest?.('.conceito[data-conceito]');
       if (alvo && !alvo.contains(e.relatedTarget) && !pop.contains(e.relatedTarget)) fechar();
     });
